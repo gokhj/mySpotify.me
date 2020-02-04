@@ -1,0 +1,12 @@
+.myCard {
+    width: 18rem;
+    text-align: center;
+}
+
+.myCard p {
+    color: black;
+}
+
+.card {
+    display: inline-table !important;
+}

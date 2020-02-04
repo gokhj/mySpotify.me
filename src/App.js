@@ -4,6 +4,8 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Spotify from './util/Spotify';
 import TopResults from './TopResults/TopResults';
+import TrackResults from './TrackResults/TrackResults';
+import ArtistResults from './ArtistResults/ArtistResults';
 
 class App extends React.Component {
 
@@ -48,7 +50,8 @@ class App extends React.Component {
             <h1>In development React App</h1>
             <button type="button" className="btn btn-success myBtn" onClick={this.getArtists}>Get Top Artists</button>
             <button type="button" className="btn btn-success myBtn" onClick={this.getTracks}>Get Top Tracks</button>
-            <TopResults results={this.state.results}/>
+            {/* <TopResults results={this.state.results}/> */}
+            <ArtistResults results={this.state.results}/>
           </div>
         </div>
       </div>
