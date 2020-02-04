@@ -1,6 +1,7 @@
 .myCard {
     width: 18rem;
     text-align: center;
+    margin: 5px;
 }
 
 .myCard p {
@@ -9,4 +10,5 @@
 
 .card {
     display: inline-table !important;
+    border: none;
 }

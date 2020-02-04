@@ -23,8 +23,7 @@ const Spotify = {
             return accessToken;
         } else {
             // user-top-read is the only scope needed
-            const accessUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=user-top-read&redirect_uri=${redirectUri}`;
-            window.location = accessUrl;
+            window.location = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=user-top-read&redirect_uri=${redirectUri}`;
         }
 
     },
