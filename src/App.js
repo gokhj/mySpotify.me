@@ -1,10 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Spotify from './util/Spotify';
-import TopResults from './TopResults/TopResults';
-import TrackResults from './TrackResults/TrackResults';
+// import TopResults from './TopResults/TopResults';
+// import TrackResults from './TrackResults/TrackResults';
 import ArtistResults from './ArtistResults/ArtistResults';
 import Toggle from 'react-toggle'
 import CornerButton from './CornerButton/CornerButton'
@@ -18,14 +18,17 @@ class App extends React.Component {
     this.state = {
       results: [],
       artistOrTrack: false,
-      loggedIn: false
+      loggedIn: false,
+      time_range: ""
     }
 
-    this.getArtists = this.getArtists.bind(this);
-    this.getTracks = this.getTracks.bind(this);
     this.artistOrTrack = this.artistOrTrack.bind(this);
     this.getResults = this.getResults.bind(this);
     this.updateloggedIn = this.updateloggedIn.bind(this);
+    this.changeTimeline = this.changeTimeline.bind(this);
+    this.checkShortTerm = this.checkShortTerm.bind(this);
+    this.checkMediumTerm = this.checkMediumTerm.bind(this);
+    this.checkLongTerm = this.checkLongTerm.bind(this);
   }
 
   artistOrTrack() {
@@ -34,36 +37,40 @@ class App extends React.Component {
       } else {
         this.setState({ artistOrTrack: true });
       }
-      this.getResults();
+      this.getResults(this.state.time_range, this.state.artistOrTrack);
   }
 
-  getArtists() {
-    Spotify.getArtists().then(results => {
-      this.setState({results: results});
-    });
-  }
-
-  getTracks() {
-    Spotify.getTracks().then(results => {
-      this.setState({results: results});
-    })
-  }
-
-  getResults() {
-    if(this.state.artistOrTrack){
-      Spotify.getArtists().then(results => {
+  getResults(time_range, artistOrTrack) {
+    if(artistOrTrack){
+      Spotify.getArtists(time_range).then(results => {
         this.setState({results: results});
       })
     } else {
-      Spotify.getTracks().then(results => {
+      Spotify.getTracks(time_range).then(results => {
         this.setState({results: results});
       })
     }
   }
 
   updateloggedIn(val) {
-    console.log(val);
     this.setState({loggedIn: val})
+  }
+
+  changeTimeline(time_range) {
+    this.setState({time_range: time_range});
+    this.getResults(time_range, !this.state.artistOrTrack);
+  }
+
+  checkShortTerm() {
+    this.changeTimeline('short_term');
+  }
+
+  checkMediumTerm() {
+    this.changeTimeline('medium_term');
+  }
+  
+  checkLongTerm() {
+    this.changeTimeline('long_term');
   }
 
   render(){
@@ -90,8 +97,12 @@ class App extends React.Component {
               <p> &rarr; Tracks</p>
             </div>
             {/* <TopResults results={this.state.results}/> */}
-            <ArtistResults results={this.state.results}/>
+            <br></br>
+            <button className="btn" onClick={this.checkShortTerm} disabled={!this.state.loggedIn}>1 month</button>
+            <button className="btn" onClick={this.checkMediumTerm} disabled={!this.state.loggedIn}>6 months</button>
+            <button className="btn" onClick={this.checkLongTerm} disabled={!this.state.loggedIn}>Lifetime</button>
           </div>
+          <ArtistResults results={this.state.results} />
         </div>
       </div>
     );

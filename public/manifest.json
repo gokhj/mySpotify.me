@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "mySpotify.me",
+  "name": "Get your Spotify top list",
   "icons": [
     {
       "src": "favicon.ico",

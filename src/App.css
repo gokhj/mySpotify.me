@@ -4,6 +4,8 @@
 
 .btn {
   background-color: #84bd00 !important;
+  margin: 5px;
+  color: white !important;
 }
 
 a {

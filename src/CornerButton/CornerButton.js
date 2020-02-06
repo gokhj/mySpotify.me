@@ -48,7 +48,7 @@ class CornerButton extends React.Component {
         } else {
             return(
                 <div className="loggedIn">
-                    <img src={this.state.username[1]} className="roundedImage" alt="profile picture"></img>
+                    <img src={this.state.username[1]} className="roundedImage" alt="profile"></img>
                     <p className="username">{this.state.username[0]}</p>
                 </div>
             )
