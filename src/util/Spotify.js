@@ -1,7 +1,34 @@
 const clientId = '382399453ebf45ec9a799e8561cbb8cd';
-const redirectUri = 'https://myspotify.me/'
-// const redirectUri = 'http://localhost:3000'; // Local
+// const redirectUri = 'https://myspotify.me/'
+const redirectUri = 'http://localhost:3000'; // Local
 let accessToken;
+
+// Function to check cookies
+function checkCookies() {
+
+    try {
+        let value = document.cookie;
+        let parts = value.split('; ');
+        for (let index = 0; index < parts.length; index++) {
+            const element = parts[index];
+            let checkToken = element.split('=');
+            if (checkToken[0] === "accessToken") {
+                return checkToken[1];
+            }
+        }
+        return false;
+
+    } catch {
+        return false;
+    }
+
+}
+
+// Todo: Logout button and deleting cookies
+
+if(checkCookies()) {
+    accessToken = checkCookies();
+}
 
 const Spotify = {
 
@@ -9,6 +36,7 @@ const Spotify = {
     getAccessToken() {
 
         if (accessToken) {
+            document.cookie = `accessToken=${accessToken}`; // Setting cookies
             return accessToken;
         }
 
@@ -20,6 +48,7 @@ const Spotify = {
             const expiresIn = Number(expiresInMatch[1]);
             window.setTimeout(() => accessToken = '', expiresIn * 1000);
             window.history.pushState('Access Token', null, '/'); // This clears the parameters, allowing us to grab a new access token when it expires.
+            document.cookie = `accessToken=${accessToken}`;
             return accessToken;
         } else {
             // user-top-read is the only scope needed
@@ -72,6 +101,21 @@ const Spotify = {
                 image: track.album.images,
                 link: track.external_urls.spotify
             }));
+        })
+
+    },
+
+    getId() {
+
+        return fetch('https://api.spotify.com/v1/me', { // will add limit and time_range later
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }).then(response => {
+            return response.json();
+        }).then(jsonResponse => {
+            console.log(jsonResponse)
+            return jsonResponse;
         })
 
     }
