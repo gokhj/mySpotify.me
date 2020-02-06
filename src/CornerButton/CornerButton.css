@@ -1,0 +1,13 @@
+.roundedImage {
+    border-radius: 10rem;
+    width: 50px;
+}
+
+.loggedIn {
+    display: block ruby;
+}
+
+.username {
+    margin: 5px;
+    color: white;
+}

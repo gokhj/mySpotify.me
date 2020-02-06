@@ -1,6 +1,7 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Spotify from '../util/Spotify';
+import './CornerButton.css'
 
 class CornerButton extends React.Component {
 
@@ -8,16 +9,33 @@ class CornerButton extends React.Component {
         super(props);
 
         this.state = {
-            loggedIn: false
+            loggedIn: false,
+            username: []
         }
 
         this.loginSpotify = this.loginSpotify.bind(this);
+        this.getId = this.getId.bind(this);
 
     }
 
     loginSpotify() {
         this.setState({ loggedIn: true })
         Spotify.getAccessToken();
+        this.getId();
+        this.props.loggedIn(true);
+    }
+
+    async getId() {
+        if(!this.state.loggedIn){
+            const token = Spotify.getAccessToken();
+            const response = await fetch('https://api.spotify.com/v1/me', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            const json = await response.json();
+            this.setState({username: [json.id, json.images[0].url]});
+        }
     }
 
     render() {
@@ -29,8 +47,9 @@ class CornerButton extends React.Component {
             )
         } else {
             return(
-                <div>
-                    <p>Already logged in!</p>
+                <div className="loggedIn">
+                    <img src={this.state.username[1]} className="roundedImage" alt="profile picture"></img>
+                    <p className="username">{this.state.username[0]}</p>
                 </div>
             )
         }

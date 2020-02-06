@@ -17,13 +17,15 @@ class App extends React.Component {
 
     this.state = {
       results: [],
-      artistOrTrack: false
+      artistOrTrack: false,
+      loggedIn: false
     }
 
     this.getArtists = this.getArtists.bind(this);
     this.getTracks = this.getTracks.bind(this);
     this.artistOrTrack = this.artistOrTrack.bind(this);
     this.getResults = this.getResults.bind(this);
+    this.updateloggedIn = this.updateloggedIn.bind(this);
   }
 
   artistOrTrack() {
@@ -59,12 +61,17 @@ class App extends React.Component {
     }
   }
 
+  updateloggedIn(val) {
+    console.log(val);
+    this.setState({loggedIn: val})
+  }
+
   render(){
     return (
       <div>
         <nav className="navbar darkNavBar">
           <span className="navbar-brand">mySpotify.me</span>
-          <CornerButton />
+          <CornerButton loggedIn={this.updateloggedIn} />
           {/* <button type="button" className="btn btn-success my-2 my-sm-0" onClick={this.loginSpotify}>Login</button> */}
         </nav>
         <div className="myContainer">
@@ -77,6 +84,7 @@ class App extends React.Component {
                 <Toggle
                   defaultChecked={this.state.artistOrTrack}
                   icons={false}
+                  disabled={!this.state.loggedIn}
                   onChange={this.artistOrTrack} />
               </label>
               <p> &rarr; Tracks</p>

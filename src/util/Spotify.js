@@ -47,7 +47,8 @@ const Spotify = {
         }).then(jsonResponse => {
                 return jsonResponse.items.map(artist => ({
                     name: artist.name,
-                    image: artist.images[0].url
+                    image: artist.images[0].url,
+                    link: artist.external_urls.spotify,
                 }))
         })
 
@@ -56,7 +57,6 @@ const Spotify = {
     getTracks() {
 
         const accessToken = Spotify.getAccessToken();
-
         return fetch('https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term', { // will add limit and time_range later
             headers: {
                 Authorization: `Bearer ${accessToken}`
@@ -66,7 +66,8 @@ const Spotify = {
         }).then(jsonResponse => {
             return jsonResponse.items.map(track => ({
                 name: track.name,
-                image: track.album.images[0].url
+                image: track.album.images[0].url,
+                link: track.external_urls.spotify
             }));
         })
 
