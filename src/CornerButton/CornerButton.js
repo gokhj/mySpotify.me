@@ -15,29 +15,43 @@ class CornerButton extends React.Component {
 
         this.loginSpotify = this.loginSpotify.bind(this);
         this.getId = this.getId.bind(this);
+        this.logoutSpotify = this.logoutSpotify.bind(this);
+
+        // Checking the parent component, if there is a login cookie, change the state to loggedIn
+        if(this.props.cookieLoginData) {
+            this.state.loggedIn = true;
+            this.getId();
+        }
 
     }
-
+    // Logging in to Spotify, changing states and getting the User ID & Picture
     loginSpotify() {
-        this.setState({ loggedIn: true })
+        if(!this.state.loggedIn){
+            this.setState({ loggedIn: true })
+        }
         Spotify.getAccessToken();
         this.getId();
         this.props.loggedIn(true);
     }
-
-    async getId() {
-        if(!this.state.loggedIn){
-            const token = Spotify.getAccessToken();
-            const response = await fetch('https://api.spotify.com/v1/me', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-            const json = await response.json();
-            this.setState({username: [json.id, json.images[0].url]});
-        }
+    // Reverting login
+    logoutSpotify() {
+        Spotify.deleteCookie();
+        this.setState({ loggedIn: false });
+        this.setState({ usernema: [] });
+        this.props.loggedIn(false);
     }
-
+    // Async function to get user ID while making another API call
+    async getId() {
+        const token = Spotify.getAccessToken();
+        const response = await fetch('https://api.spotify.com/v1/me', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        const json = await response.json();
+        this.setState({username: [json.id, json.images[0].url]});
+    }
+    // render method depending on the loggedIn state
     render() {
         if(!this.state.loggedIn){
             return (
@@ -50,6 +64,7 @@ class CornerButton extends React.Component {
                 <div className="loggedIn">
                     <img src={this.state.username[1]} className="roundedImage" alt="profile"></img>
                     <p className="username">{this.state.username[0]}</p>
+                    <button type="button" className="btn btn-success my-2 my-sm-0" onClick={this.logoutSpotify}>Logout</button>
                 </div>
             )
         }

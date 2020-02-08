@@ -21,10 +21,8 @@ a {
 }
 
 .myContainer {
-  background-color: #828282;
   color: #ecebe8;
   text-align: center;
-  min-height: 800px;
 }
 
 .App {

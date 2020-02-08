@@ -1,38 +1,13 @@
+/* eslint-disable no-useless-concat */
 const clientId = '382399453ebf45ec9a799e8561cbb8cd';
-// const redirectUri = 'https://myspotify.me/'
-const redirectUri = 'http://localhost:3000'; // Local
+const redirectUri = 'https://myspotify.me/'
+// const redirectUri = 'http://localhost:3000'; // Local
 let accessToken;
-
-// Function to check cookies
-function checkCookies() {
-
-    try {
-        let value = document.cookie;
-        let parts = value.split('; ');
-        for (let index = 0; index < parts.length; index++) {
-            const element = parts[index];
-            let checkToken = element.split('=');
-            if (checkToken[0] === "accessToken") {
-                return checkToken[1];
-            }
-        }
-        return false;
-
-    } catch {
-        return false;
-    }
-
-}
-
-// Todo: Logout button and deleting cookies
-
-if(checkCookies()) {
-    accessToken = checkCookies();
-}
 
 const Spotify = {
 
     // Getting access token for top tracks & artists
+    // If the accessToken already given then writes inside a cookie for future to avoid multiple calls
     getAccessToken() {
 
         if (accessToken) {
@@ -104,7 +79,14 @@ const Spotify = {
         })
 
     },
-
+    // checking if the user is already signed in
+    checkCookies() {
+        // Checking if accessToken already exists in the browser cookies
+        let tempCookie = document.cookie.match('(^|;) ?' + 'accessToken' + '=([^;]*)(;|$)');
+        let cookie = tempCookie ? tempCookie[2] : false;
+        return cookie;
+    },
+    // getting user's ID and profile picture
     getId() {
 
         return fetch('https://api.spotify.com/v1/me', { // will add limit and time_range later
@@ -118,8 +100,18 @@ const Spotify = {
             return jsonResponse;
         })
 
+    },
+    // when logout button clicked, the cookie is being removed
+    deleteCookie() {
+        document.cookie = 'accessToken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     }
 
+}
+
+let token = Spotify.checkCookies(); // initial variable to check cookie
+
+if (token) {
+    accessToken = token; // if found assign it
 }
 
 export default Spotify
