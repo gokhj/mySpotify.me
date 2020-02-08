@@ -1,8 +1,8 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './ArtistResults.css';
+import './Results.css';
 
-class ArtistResults extends React.Component {
+class Results extends React.Component {
 
     render() {
         let new_results = []
@@ -24,7 +24,7 @@ class ArtistResults extends React.Component {
                 }
                 new_results.push(obj);
             }
-            
+
         }
         return (
             <div>
@@ -33,13 +33,13 @@ class ArtistResults extends React.Component {
 
                         <div className="card myCard">
                             <a href={result.link} target="_blank" rel="noopener noreferrer">
-                            <img src={result.image} className="card-img-top" alt="..."/>
+                                <img src={result.image} className="card-img-top" alt="..." />
                                 <div className="card-body">
                                     <p className="card-text">{result.name}</p>
                                 </div>
-                                </a>
+                            </a>
                         </div>
-                    
+
                     )
                 }
             </div>
@@ -48,4 +48,4 @@ class ArtistResults extends React.Component {
 
 }
 
-export default ArtistResults
+export default Results

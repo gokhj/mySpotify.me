@@ -1,5 +1,10 @@
 .artist-track-toggle {
   display: inline flex;
+  margin-top: 2.5%;
+}
+
+.buttons {
+  margin-bottom: 2.5%;
 }
 
 .btn {

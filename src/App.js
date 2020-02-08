@@ -1,13 +1,10 @@
 import React from 'react';
-// import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Spotify from './util/Spotify';
-// import TopResults from './TopResults/TopResults';
-// import TrackResults from './TrackResults/TrackResults';
-import ArtistResults from './ArtistResults/ArtistResults';
-import Toggle from 'react-toggle'
-import CornerButton from './CornerButton/CornerButton'
+import Results from './Results/Results';
+import Toggle from 'react-toggle';
+import CornerButton from './CornerButton/CornerButton';
 
 class App extends React.Component {
 
@@ -84,12 +81,9 @@ class App extends React.Component {
         <nav className="navbar darkNavBar">
           <span className="navbar-brand">mySpotify.me</span>
           <CornerButton loggedIn={this.updateloggedIn} cookieLoginData={this.state.loggedIn}/>
-          {/* <button type="button" className="btn btn-success my-2 my-sm-0" onClick={this.loginSpotify}>Login</button> */}
         </nav>
         <div className="myContainer">
           <div className="container">
-            <h5>This app is in development</h5>
-            <h6>Check the source code from <a href="https://github.com/gokhj/mySpotify.me" target="_blank" rel="noopener noreferrer">here</a>.</h6>
             <div className="artist-track-toggle">
               <p>Artists &larr; </p>
               <label>
@@ -101,13 +95,14 @@ class App extends React.Component {
               </label>
               <p> &rarr; Tracks</p>
             </div>
-            {/* <TopResults results={this.state.results}/> */}
             <br></br>
-            <button className="btn" onClick={this.checkShortTerm} disabled={!this.state.loggedIn}>1 month</button>
-            <button className="btn" onClick={this.checkMediumTerm} disabled={!this.state.loggedIn}>6 months</button>
-            <button className="btn" onClick={this.checkLongTerm} disabled={!this.state.loggedIn}>Lifetime</button>
+            <div className="buttons">
+              <button className="btn" onClick={this.checkShortTerm} disabled={!this.state.loggedIn}>1 month</button>
+              <button className="btn" onClick={this.checkMediumTerm} disabled={!this.state.loggedIn}>6 months</button>
+              <button className="btn" onClick={this.checkLongTerm} disabled={!this.state.loggedIn}>Lifetime</button>
+            </div>
           </div>
-          <ArtistResults results={this.state.results} />
+          <Results results={this.state.results} />
         </div>
       </div>
     );
