@@ -4,10 +4,46 @@ import './Results.css';
 
 class Results extends React.Component {
 
-    render() {
+    constructor(props) {
+        super(props);
+
+        this.arrangeGenres = this.arrangeGenres.bind();
+        this.arrangeImages = this.arrangeImages.bind();
+
+    }
+    // arrange genres // creating dictionary is finished so far
+    arrangeGenres(artists) {
+
+        let totalGenres = {}
+
+        artists.forEach(element => {
+            const elementGenres = element.genres;
+            if(elementGenres) {
+                elementGenres.forEach(genre => {
+                    if(totalGenres.hasOwnProperty(genre)){
+                        totalGenres[genre] += 1;
+                    } else {
+                    totalGenres[genre] = 1;
+                    }
+                });
+            } else {
+                return false;
+            }
+        });
+
+        if (Object.keys(totalGenres).length === 0) {
+            return false;
+        } else {
+            return totalGenres;
+        }
+
+    }
+    // arranging images // moved from render method for readability
+    arrangeImages(arr) {
+
         let new_results = []
-        for (let index = 0; index < this.props.results.length; index++) {
-            const element = this.props.results[index];
+        for (let index = 0; index < arr.length; index++) {
+            const element = arr[index];
             try {
                 let image = element.image[0].url
                 let obj = {
@@ -26,6 +62,18 @@ class Results extends React.Component {
             }
 
         }
+
+        return new_results;
+    }
+
+    render() {
+        const data = this.props.results;
+        const new_results = this.arrangeImages(data);
+        const genres = this.arrangeGenres(data);
+        if(genres) {
+            new_results.push(genres);
+        }
+
         return (
             <div className="mainResultDiv">
                 {
@@ -48,4 +96,4 @@ class Results extends React.Component {
 
 }
 
-export default Results
+export default Results;

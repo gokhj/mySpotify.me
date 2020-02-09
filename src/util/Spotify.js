@@ -55,6 +55,7 @@ const Spotify = {
                     name: artist.name,
                     image: artist.images,
                     link: artist.external_urls.spotify,
+                    genres: artist.genres // including genres for artist
                 }))
         })
 
