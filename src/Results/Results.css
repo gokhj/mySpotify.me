@@ -12,3 +12,7 @@
     display: inline-table !important;
     border: none;
 }
+
+.mainResultDiv {
+    margin-bottom: 15px;
+}

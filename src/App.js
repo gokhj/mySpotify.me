@@ -18,6 +18,7 @@ class App extends React.Component {
       loggedIn: false, // check if loggedIn
       time_range: "" // the time range for getTracks and getArtists functions
     }
+
     // binding all the functions
     this.artistOrTrack = this.artistOrTrack.bind(this);
     this.getResults = this.getResults.bind(this);
@@ -27,7 +28,7 @@ class App extends React.Component {
     this.checkMediumTerm = this.checkMediumTerm.bind(this);
     this.checkLongTerm = this.checkLongTerm.bind(this);
 
-    let cookie = Spotify.checkCookies();
+    const cookie = Spotify.checkExists();
     if(cookie) {
       this.state.loggedIn = true;
     }

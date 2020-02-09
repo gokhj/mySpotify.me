@@ -11,7 +11,6 @@ const Spotify = {
     getAccessToken() {
 
         if (accessToken) {
-            document.cookie = `accessToken=${accessToken}`; // Setting cookies
             return accessToken;
         }
 
@@ -23,7 +22,9 @@ const Spotify = {
             const expiresIn = Number(expiresInMatch[1]);
             window.setTimeout(() => accessToken = '', expiresIn * 1000);
             window.history.pushState('Access Token', null, '/'); // This clears the parameters, allowing us to grab a new access token when it expires.
-            document.cookie = `accessToken=${accessToken}`;
+            document.cookie = `accessToken=${accessToken}`; // Setting cookies for the accessToken
+            const date = new Date();
+            document.cookie = `accessDate=${date.valueOf()}`; // Setting cookies for the hour/date accessed (primitive values to make it easier for calculation)
             return accessToken;
         } else {
             // user-top-read is the only scope needed
@@ -82,8 +83,16 @@ const Spotify = {
     // checking if the user is already signed in
     checkCookies() {
         // Checking if accessToken already exists in the browser cookies
-        let tempCookie = document.cookie.match('(^|;) ?' + 'accessToken' + '=([^;]*)(;|$)');
-        let cookie = tempCookie ? tempCookie[2] : false;
+        const tempCookie = document.cookie.match('(^|;) ?' + 'accessToken' + '=([^;]*)(;|$)');
+        const cookie = tempCookie ? tempCookie[2] : false;
+        if(cookie) { // Checking time because Spotify only issues authorization for 60 minutes
+            const accessedTime = document.cookie.match('(^|;) ?' + 'accessDate' + '=([^;]*)(;|$)'); // This is for testing purposes
+            let d = new Date().valueOf();
+            if((d-accessedTime[2]) > 3599999) {
+                alert('Your authorization with Spotify is expired. Please login again.');
+                return false;
+            }
+        }
         return cookie;
     },
     // getting user's ID and profile picture
@@ -96,7 +105,6 @@ const Spotify = {
         }).then(response => {
             return response.json();
         }).then(jsonResponse => {
-            console.log(jsonResponse)
             return jsonResponse;
         })
 
@@ -104,14 +112,22 @@ const Spotify = {
     // when logout button clicked, the cookie is being removed
     deleteCookie() {
         document.cookie = 'accessToken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    },
+    // checking if the cookie exists, designed to check from other files, needed a boolean return only
+    checkExists() {
+        if(accessToken) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
 
-let token = Spotify.checkCookies(); // initial variable to check cookie
-
+const token = Spotify.checkCookies(); // initial variable to check cookie
 if (token) {
     accessToken = token; // if found assign it
 }
 
-export default Spotify
+
+export default Spotify;
