@@ -32,6 +32,12 @@ class App extends React.Component {
     if(cookie) {
       this.state.loggedIn = true;
     }
+    // If the url contains access token, then reload to login
+    // This solution is temporary, I don't like it personally but it just works at the moment
+    if(Spotify.assignAccessToken()){
+      window.location.reload();
+    }
+
   }
   // deciding logic for the toggle
   artistOrTrack() {

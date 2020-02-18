@@ -7,16 +7,22 @@ let accessToken;
 const Spotify = {
 
     // Getting access token for top tracks & artists
-    // If the accessToken already given then writes inside a cookie for future to avoid multiple calls
     getAccessToken() {
 
         if (accessToken) {
             return accessToken;
+        } else {
+            // user-top-read is the only scope needed
+            window.location.replace(`https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=user-top-read&redirect_uri=${redirectUri}`);
         }
 
+    },
+
+    assignAccessToken() {
+        // Checking if the access token is given by Spotify on the URL
         const accessTokenMatch = window.location.href.match(/access_token=([^&]*)/);
         const expiresInMatch = window.location.href.match(/expires_in=([^&]*)/);
-
+        // If the access token is given, then assign and return them && also writing to cookies
         if (accessTokenMatch && expiresInMatch) {
             accessToken = accessTokenMatch[1];
             const expiresIn = Number(expiresInMatch[1]);
@@ -27,8 +33,7 @@ const Spotify = {
             document.cookie = `accessDate=${date.valueOf()}`; // Setting cookies for the hour/date accessed (primitive values to make it easier for calculation)
             return accessToken;
         } else {
-            // user-top-read is the only scope needed
-            window.location = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=user-top-read&redirect_uri=${redirectUri}`;
+            return false; // returning false to avoid multiple reloads on the page. --> check app.js constructor
         }
 
     },
