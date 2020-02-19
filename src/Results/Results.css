@@ -9,7 +9,9 @@
     padding-bottom: 1%;
 }
 .card {
-    width: 80%;
+    width: 70%;
+    padding: auto;
+    margin: auto;
 }
 .card-body {
     padding-top: 5%;
@@ -30,7 +32,8 @@
 }
 .result-number {
     position: absolute;
-    margin-top: -2%;
+    margin-top: -1.5%;
+    margin-left: 2%;
 }
 .result-number h2 {
     margin: 0;

@@ -56,7 +56,7 @@ class CornerButton extends React.Component {
         if(!this.state.loggedIn){
             return (
                 <div>
-                    <button type="button" className="btn btn-success my-2 my-sm-0 login-spotify" onClick={this.loginSpotify}><span className="button-text">Logout</span></button>
+                    <button type="button" className="btn btn-success my-2 my-sm-0 login-spotify" onClick={this.loginSpotify}><span className="button-text">Login</span></button>
                 </div>
             )
         } else {

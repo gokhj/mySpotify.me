@@ -1,6 +1,6 @@
 import React from 'react';
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 import Spotify from './util/Spotify';
 import Results from './Results/Results';
 import Toggle from 'react-toggle';
@@ -82,7 +82,20 @@ class App extends React.Component {
     this.changeTimeline('long_term');
   }
 
-  render(){
+  render() {
+    // creating button classes as variables
+    let button1 = 'btn'
+    let button2 = 'btn'
+    let button3 = 'btn'
+    // changes the active button depending on what the time range is
+    if(this.state.time_range === 'short_term') {
+      button1 += ' active-button';
+    } else if(this.state.time_range === 'medium_term') {
+      button2 += ' active-button';
+    } else {
+      button3 += ' active-button';
+    }
+
     return (
       <div>
         <nav className="navbar darkNavBar">
@@ -104,9 +117,9 @@ class App extends React.Component {
             </div>
             <br></br>
             <div className="buttons">
-              <button className="btn" onClick={this.checkShortTerm} disabled={!this.state.loggedIn}>1 month</button>
-              <button className="btn" onClick={this.checkMediumTerm} disabled={!this.state.loggedIn}>6 months</button>
-              <button className="btn" onClick={this.checkLongTerm} disabled={!this.state.loggedIn}>Lifetime</button>
+              <button className={button1} onClick={this.checkShortTerm} disabled={!this.state.loggedIn} active='true'>1 month</button>
+              <button className={button2} onClick={this.checkMediumTerm} disabled={!this.state.loggedIn}>6 months</button>
+              <button className={button3} onClick={this.checkLongTerm} disabled={!this.state.loggedIn}>Lifetime</button>
             </div>
           </div>
           <Results results={this.state.results} />
