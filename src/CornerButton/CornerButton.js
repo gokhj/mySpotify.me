@@ -56,7 +56,7 @@ class CornerButton extends React.Component {
         if(!this.state.loggedIn){
             return (
                 <div>
-                    <button type="button" className="btn btn-success my-2 my-sm-0" onClick={this.loginSpotify}>Login</button>
+                    <button type="button" className="btn btn-success my-2 my-sm-0 login-spotify" onClick={this.loginSpotify}><span className="button-text">Logout</span></button>
                 </div>
             )
         } else {
@@ -64,12 +64,11 @@ class CornerButton extends React.Component {
                 <div className="loggedIn">
                     <img src={this.state.username[1]} className="roundedImage" alt="profile"></img>
                     <p className="username">{this.state.username[0]}</p>
-                    <button type="button" className="btn btn-success my-2 my-sm-0" onClick={this.logoutSpotify}>Logout</button>
+                    <button type="button" className="btn btn-success my-2 my-sm-0 login-spotify" onClick={this.logoutSpotify}><span className="button-text">Logout</span></button>
                 </div>
             )
         }
     }
-
 }
 
 export default CornerButton

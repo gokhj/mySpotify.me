@@ -2,18 +2,31 @@
     border-radius: 10rem;
     width: 50px;
 }
-
 .loggedIn {
     display: -webkit-inline-box;
 }
-
 .username {
     margin: 5px;
     color: white;
+    margin-top: 5%;
 }
-
+.login-spotify {
+    margin-top: 5% !important;
+}
 @media only screen and (max-width: 575px){
     .username {
         margin-top: 7.5%;
+    }
+    .roundedImage {
+        border-radius: 10rem;
+        width: 25px;
+        margin-top: 50%;
+    }
+    .login-spotify {
+    }
+    .button-text {
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 5px;
     }
 }

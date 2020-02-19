@@ -1,18 +1,77 @@
-.myCard {
-    width: 18rem;
-    text-align: center;
-    margin: 5px;
+.mainResultDiv {
+    width: 80%;
+    padding: auto;
+    margin: auto;
 }
-
-.myCard p {
+.result {
+    display: block ruby;
+    position: flex;
+    padding-bottom: 1%;
+}
+.card {
+    width: 80%;
+}
+.card-body {
+    padding-top: 5%;
+}
+.card-body h6 {
     color: black;
 }
-
-.card {
-    display: inline-table !important;
-    border: none;
+.card-body p {
+    color: gray;
+}
+.card-img {
+    width: 125px;
+    height: 125px;
+}
+.result-image {
+    position:relative;
+    overflow:hidden;
+}
+.result-number {
+    position: absolute;
+    margin-top: -2%;
+}
+.result-number h2 {
+    margin: 0;
+    padding: 0;
+}
+.card-title {
+    padding-top: 2.5%;
+}
+.card-text {
+    font-size: 14px;
+}
+.row {
+    flex-wrap: nowrap;
+}
+@media only screen and (max-width: 1200px) {
+    .result-number {
+        margin-left: 2.5%;
+        margin-top: -2.5%;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .card-img {
+        width: 50px;
+        height: 50px;
+    }
+    .card-body {
+        padding: 0;
+        /* margin-top: 5%; */
+    }
+    .no-gutters {
+        flex-wrap: inherit;
+    }
+    .card-title {
+        font-size: 12px;
+        margin-bottom: 0;
+    }
+    .result-number h1 {
+        font-size: 15px;
+    }
+    .card-text {
+        font-size: 10px;
+    }
 }
 
-.mainResultDiv {
-    margin-bottom: 15px;
-}

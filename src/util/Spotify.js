@@ -60,6 +60,7 @@ const Spotify = {
                     name: artist.name,
                     image: artist.images,
                     link: artist.external_urls.spotify,
+                    genres: artist.genres
                 }))
         })
 
@@ -80,7 +81,8 @@ const Spotify = {
             return jsonResponse.items.map(track => ({
                 name: track.name,
                 image: track.album.images,
-                link: track.external_urls.spotify
+                link: track.external_urls.spotify,
+                artists: track.artists
             }));
         })
 
