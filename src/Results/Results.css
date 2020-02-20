@@ -30,15 +30,6 @@
     position:relative;
     overflow:hidden;
 }
-.result-number {
-    position: absolute;
-    margin-top: -1.5%;
-    margin-left: 2%;
-}
-.result-number h2 {
-    margin: 0;
-    padding: 0;
-}
 .card-title {
     padding-top: 2.5%;
 }
@@ -48,11 +39,18 @@
 .row {
     flex-wrap: nowrap;
 }
+.result-number {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    position: absolute;
+    right: 10px;
+    bottom: 2.5px;
+    z-index: 999;
+    color: gray !important;
+}
 @media only screen and (max-width: 1200px) {
-    .result-number {
-        margin-left: 2.5%;
-        margin-top: -2.5%;
-    }
+
 }
 @media only screen and (max-width: 600px) {
     .card-img {
@@ -70,11 +68,11 @@
         font-size: 12px;
         margin-bottom: 0;
     }
-    .result-number h1 {
-        font-size: 15px;
-    }
     .card-text {
         font-size: 10px;
+    }
+    .result-number {
+        font-size: 12px;
     }
 }
 

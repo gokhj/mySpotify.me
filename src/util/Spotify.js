@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-concat */
 const clientId = '382399453ebf45ec9a799e8561cbb8cd';
-const redirectUri = 'https://myspotify.me/' 
+const redirectUri = 'https://myspotify.me/';
 // const redirectUri = 'http://localhost:3000'; // Local
 let accessToken;
 

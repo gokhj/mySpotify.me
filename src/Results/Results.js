@@ -115,10 +115,6 @@ class Results extends React.Component {
 
                         <div className="result">
 
-                            <div className="result-number">
-                                <h1>{result.number}</h1>
-                            </div>
-
                             <div className="card">
                                 <div className="row no-gutters">
                                     <div className="result-image">
@@ -129,6 +125,7 @@ class Results extends React.Component {
                                                 <h6 className="card-title">{result.name}</h6>
                                                 <p className="card-text">{result.additional}</p>
                                             </a>
+                                        <h6 className="result-number">{result.number}</h6>
                                         </div>
                                 </div>
                             </div>
