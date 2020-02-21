@@ -41,6 +41,9 @@ class App extends React.Component {
   }
   // deciding logic for the toggle
   artistOrTrack() {
+    if (!this.state.time_range) {
+      this.setState({ time_range: 'long_term' });
+    }
       if (this.state.artistOrTrack) {
         this.setState({ artistOrTrack: false });
       } else {
@@ -92,7 +95,7 @@ class App extends React.Component {
       button1 += ' active-button';
     } else if(this.state.time_range === 'medium_term') {
       button2 += ' active-button';
-    } else {
+    } else if(this.state.time_range === 'long_term') {
       button3 += ' active-button';
     }
 
@@ -104,6 +107,7 @@ class App extends React.Component {
         </nav>
         <div className="myContainer">
           <div className="container">
+            <div className="controls">
             <div className="artist-track-toggle">
               <p>Artists &larr; </p>
               <label>
@@ -121,6 +125,7 @@ class App extends React.Component {
               <button className={button2} onClick={this.checkMediumTerm} disabled={!this.state.loggedIn}>6 months</button>
               <button className={button3} onClick={this.checkLongTerm} disabled={!this.state.loggedIn}>Lifetime</button>
             </div>
+          </div>
           </div>
           <Results results={this.state.results} />
         </div>
