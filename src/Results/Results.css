@@ -49,6 +49,11 @@
     z-index: 999;
     color: gray !important;
 }
+.message {
+    width: 75%;
+    margin: auto;
+    padding: auto;
+}
 @media only screen and (max-width: 1200px) {
 
 }
