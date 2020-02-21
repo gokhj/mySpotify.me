@@ -1,7 +1,6 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Results.css';
-import { noImage } from '../no-image.jpg';
 
 class Results extends React.Component {
 
