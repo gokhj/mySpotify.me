@@ -16,7 +16,7 @@ class App extends React.Component {
       results: [], // json result coming from Spotify API
       artistOrTrack: false, // toggle button
       loggedIn: false, // check if loggedIn
-      time_range: "" // the time range for getTracks and getArtists functions
+      time_range: false // the time range for getTracks and getArtists functions
     }
 
     // binding all the functions
