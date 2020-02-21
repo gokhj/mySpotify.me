@@ -45,7 +45,7 @@ const Spotify = {
     */
 
     getArtists(time_range) {
-        if(time_range === false) {
+        if(!time_range) {
             time_range = "long_term";
         }
         const accessToken = Spotify.getAccessToken();
@@ -67,7 +67,7 @@ const Spotify = {
     },
 
     getTracks(time_range) {
-        if (time_range === "") {
+        if (!time_range) {
             time_range = "long_term";
         }
         const accessToken = Spotify.getAccessToken();
