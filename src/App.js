@@ -80,7 +80,7 @@ class App extends React.Component {
   checkMediumTerm() {
     this.changeTimeline('medium_term');
   }
-  // Account lifetime
+  // Account all time
   checkLongTerm() {
     this.changeTimeline('long_term');
   }
@@ -123,7 +123,7 @@ class App extends React.Component {
             <div className="buttons">
               <button className={button1} onClick={this.checkShortTerm} disabled={!this.state.loggedIn} active='true'>1 month</button>
               <button className={button2} onClick={this.checkMediumTerm} disabled={!this.state.loggedIn}>6 months</button>
-              <button className={button3} onClick={this.checkLongTerm} disabled={!this.state.loggedIn}>Lifetime</button>
+              <button className={button3} onClick={this.checkLongTerm} disabled={!this.state.loggedIn}>All time</button>
             </div>
           </div>
           </div>

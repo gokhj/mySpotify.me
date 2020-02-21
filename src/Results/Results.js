@@ -1,6 +1,7 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Results.css';
+import { noImage } from '../no-image.jpg';
 
 class Results extends React.Component {
 
@@ -45,7 +46,7 @@ class Results extends React.Component {
             } catch {
                 let obj = {
                     name: element.name,
-                    image: 'https://www.friendlyfoodqatar.com/mt-content/uploads/2017/04/no-image.jpg',
+                    image: 'https://myspotify.fra1.digitaloceanspaces.com/no-image.jpg',
                     link: element.link,
                     number: number,
                     additional: additional
@@ -90,7 +91,7 @@ class Results extends React.Component {
             } catch {
                 let obj = {
                     name: element.name,
-                    image: 'https://www.friendlyfoodqatar.com/mt-content/uploads/2017/04/no-image.jpg',
+                    image: 'https://myspotify.fra1.digitaloceanspaces.com/no-image.jpg',
                     link: element.link,
                     number: number,
                     additional: additional
