@@ -3,6 +3,7 @@ const clientId = '382399453ebf45ec9a799e8561cbb8cd';
 const redirectUri = 'https://myspotify.me/';
 // const redirectUri = 'http://localhost:3000'; // Local
 let accessToken;
+let userId;
 
 const Spotify = {
 
@@ -12,8 +13,8 @@ const Spotify = {
         if (accessToken) {
             return accessToken;
         } else {
-            // user-top-read is the only scope needed
-            window.location.replace(`https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=user-top-read&redirect_uri=${redirectUri}`);
+            const scopes = "user-top-read,playlist-modify-public"
+            window.location.replace(`https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=${scopes}&redirect_uri=${redirectUri}`);
         }
 
     },
@@ -82,11 +83,13 @@ const Spotify = {
                 name: track.name,
                 image: track.album.images,
                 link: track.external_urls.spotify,
-                artists: track.artists
+                artists: track.artists,
+                uri: track.uri
             }));
         })
 
     },
+
     // checking if the user is already signed in
     checkCookies() {
         // Checking if accessToken already exists in the browser cookies
@@ -102,9 +105,9 @@ const Spotify = {
         }
         return cookie;
     },
-    // getting user's ID and profile picture
-    getId() {
 
+    // getting user's ID and profile picture {currently not in use}
+    getId() {
         return fetch('https://api.spotify.com/v1/me', { // will add limit and time_range later
             headers: {
                 Authorization: `Bearer ${accessToken}`
@@ -116,10 +119,17 @@ const Spotify = {
         })
 
     },
+
+    // save ID as a variable
+    makeId(id) {
+        userId = id;
+    },
+
     // when logout button clicked, the cookie is being removed
     deleteCookie() {
         document.cookie = 'accessToken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     },
+
     // checking if the cookie exists, designed to check from other files, needed a boolean return only
     checkExists() {
         if(accessToken) {
@@ -127,6 +137,49 @@ const Spotify = {
         } else {
             return false;
         }
+    },
+
+    // Creating a playlist out of top Spotify songs
+    savePlaylist(trackUris, time_range) {
+        let name;
+        const date = new Date();
+        let arranged_date = "";
+        arranged_date += date.getDate() + "/";
+        arranged_date += (date.getMonth()+1) + "/";
+        arranged_date += date.getFullYear();
+
+        // Assign name variable
+        if (time_range === "short_term") {
+            name = `My top songs in last month - ${arranged_date}`;
+        } else if (time_range === "medium_term") {
+            name = `My top songs in the last 6 months - ${arranged_date}`;
+        } else if (time_range === "long_term") {
+            name = `My all time top songs - ${arranged_date}`;
+        } else {
+            return false;
+        }
+
+        alert(`Playlist was hopefully created on your account \n "${name}"`);
+
+        return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+            method: 'POST',
+            body: JSON.stringify({ name: name })
+        }).then(response => {
+            return response.json();
+        }
+        ).then(jsonResponse => {
+            const playlistId = jsonResponse.id;
+            return fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                },
+                method: 'POST',
+                body: JSON.stringify({ uris: trackUris })
+            });
+        });
     }
 
 }

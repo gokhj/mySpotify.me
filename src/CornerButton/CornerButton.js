@@ -1,5 +1,4 @@
 import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Spotify from '../util/Spotify';
 import './CornerButton.css'
 
@@ -50,6 +49,7 @@ class CornerButton extends React.Component {
         })
         const json = await response.json();
         this.setState({username: [json.id, json.images[0].url]});
+        Spotify.makeId(json.id);
     }
     // render method depending on the loggedIn state
     render() {

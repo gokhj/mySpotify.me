@@ -1,0 +1,9 @@
+.hidden {
+    display: none;
+}
+
+.btn {
+  background-color: #84bd00;
+  margin: 5px;
+  color: white !important;
+}

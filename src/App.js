@@ -5,6 +5,7 @@ import Spotify from './util/Spotify';
 import Results from './Results/Results';
 import Toggle from 'react-toggle';
 import CornerButton from './CornerButton/CornerButton';
+import SavePlaylist from './SavePlaylist/SavePlaylist';
 
 class App extends React.Component {
 
@@ -124,6 +125,8 @@ class App extends React.Component {
               <button className={button1} onClick={this.checkShortTerm} disabled={!this.state.loggedIn} active='true'>1 month</button>
               <button className={button2} onClick={this.checkMediumTerm} disabled={!this.state.loggedIn}>6 months</button>
               <button className={button3} onClick={this.checkLongTerm} disabled={!this.state.loggedIn}>All time</button>
+              <br></br>
+                <SavePlaylist artistOrTrack={this.state.artistOrTrack} time={this.state.time_range} trackUris={this.state.results} />
             </div>
           </div>
           </div>
