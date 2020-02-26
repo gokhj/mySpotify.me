@@ -161,23 +161,24 @@ const Spotify = {
 
         alert(`Playlist was hopefully created on your account \n "${name}"`);
 
-        return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            },
-            method: 'POST',
-            body: JSON.stringify({ name: name })
-        }).then(response => {
-            return response.json();
-        }
+        const headers = { Authorization: `Bearer ${accessToken}` };
+
+        return fetch('https://api.spotify.com/v1/me', { headers: headers }
+        ).then(response => response.json()
         ).then(jsonResponse => {
-            const playlistId = jsonResponse.id;
-            return fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                },
+            userId = jsonResponse.id;
+            return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+                headers: headers,
                 method: 'POST',
-                body: JSON.stringify({ uris: trackUris })
+                body: JSON.stringify({ name: name })
+            }).then(response => response.json()
+            ).then(jsonResponse => {
+                const playlistId = jsonResponse.id;
+                return fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`, {
+                    headers: headers,
+                    method: 'POST',
+                    body: JSON.stringify({ uris: trackUris })
+                });
             });
         });
     }
