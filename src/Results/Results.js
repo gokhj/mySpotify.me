@@ -133,7 +133,7 @@ class Results extends React.Component {
                     )
                 }
                 <div className="message">
-                    <p>This app is in development. Check the source code from <a href="https://github.com/gokhj/mySpotify.me" target="_blank"
+                    <p>Check the source code <a href="https://github.com/gokhj/mySpotify.me" target="_blank"
                         rel="noopener noreferrer">here</a>.</p>
                 </div>
             </div>

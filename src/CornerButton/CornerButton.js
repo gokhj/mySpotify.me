@@ -25,7 +25,7 @@ class CornerButton extends React.Component {
     }
     // Logging in to Spotify, changing states and getting the User ID & Picture
     loginSpotify() {
-        if(!this.state.loggedIn){
+        if (!this.state.loggedIn) {
             this.setState({ loggedIn: true })
         }
         Spotify.getAccessToken();
@@ -48,19 +48,19 @@ class CornerButton extends React.Component {
             }
         })
         const json = await response.json();
-        this.setState({username: [json.id, json.images[0].url]});
+        this.setState({ username: [json.id, json.images[0].url] });
         Spotify.makeId(json.id);
     }
     // render method depending on the loggedIn state
     render() {
-        if(!this.state.loggedIn){
+        if (!this.state.loggedIn) {
             return (
                 <div>
                     <button type="button" className="btn btn-success my-2 my-sm-0 login-spotify" onClick={this.loginSpotify}><span className="button-text">Login</span></button>
                 </div>
             )
         } else {
-            return(
+            return (
                 <div className="loggedIn">
                     <img src={this.state.username[1]} className="roundedImage" alt="profile"></img>
                     <p className="username">{this.state.username[0]}</p>

@@ -7,7 +7,7 @@ let userId;
 
 const Spotify = {
 
-    // Getting access token for top tracks & artists
+    // Get access token for top tracks & artists
     getAccessToken() {
 
         if (accessToken) {
@@ -20,7 +20,7 @@ const Spotify = {
     },
 
     assignAccessToken() {
-        // Checking if the access token is given by Spotify on the URL
+        // Check if the access token is given by Spotify on the URL
         const accessTokenMatch = window.location.href.match(/access_token=([^&]*)/);
         const expiresInMatch = window.location.href.match(/expires_in=([^&]*)/);
         // If the access token is given, then assign and return them && also writing to cookies
@@ -29,12 +29,12 @@ const Spotify = {
             const expiresIn = Number(expiresInMatch[1]);
             window.setTimeout(() => accessToken = '', expiresIn * 1000);
             window.history.pushState('Access Token', null, '/'); // This clears the parameters, allowing us to grab a new access token when it expires.
-            document.cookie = `accessToken=${accessToken}`; // Setting cookies for the accessToken
+            document.cookie = `accessToken=${accessToken}`; // Set cookies for the accessToken
             const date = new Date();
-            document.cookie = `accessDate=${date.valueOf()}`; // Setting cookies for the hour/date accessed (primitive values to make it easier for calculation)
+            document.cookie = `accessDate=${date.valueOf()}`; // Set cookies for the hour/date accessed (primitive values to make it easier for calculation)
             return accessToken;
         } else {
-            return false; // returning false to avoid multiple reloads on the page. --> check app.js constructor
+            return false; // return false to avoid multiple reloads on the page. --> check app.js constructor
         }
 
     },
@@ -90,7 +90,7 @@ const Spotify = {
 
     },
 
-    // checking if the user is already signed in
+    // check if the user is already signed in
     checkCookies() {
         // Checking if accessToken already exists in the browser cookies
         const tempCookie = document.cookie.match('(^|;) ?' + 'accessToken' + '=([^;]*)(;|$)');
@@ -106,9 +106,9 @@ const Spotify = {
         return cookie;
     },
 
-    // getting user's ID and profile picture {currently not in use}
+    // get user's ID and profile picture {currently not in use}
     getId() {
-        return fetch('https://api.spotify.com/v1/me', { // will add limit and time_range later
+        return fetch('https://api.spotify.com/v1/me', {
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }
@@ -130,7 +130,7 @@ const Spotify = {
         document.cookie = 'accessToken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     },
 
-    // checking if the cookie exists, designed to check from other files, needed a boolean return only
+    // check if the cookie exists, designed to check from other files, needed a boolean return only
     checkExists() {
         if(accessToken) {
             return true;
@@ -139,7 +139,7 @@ const Spotify = {
         }
     },
 
-    // Creating a playlist out of top Spotify songs
+    // Create a playlist out of top Spotify songs
     savePlaylist(trackUris, time_range) {
         let name;
         const date = new Date();
@@ -159,8 +159,6 @@ const Spotify = {
             return false;
         }
 
-        alert(`Playlist was hopefully created on your account \n "${name}"`);
-
         const headers = { Authorization: `Bearer ${accessToken}` };
 
         return fetch('https://api.spotify.com/v1/me', { headers: headers }
@@ -174,6 +172,12 @@ const Spotify = {
             }).then(response => response.json()
             ).then(jsonResponse => {
                 const playlistId = jsonResponse.id;
+                const playlistLink = jsonResponse.external_urls.spotify;
+                if(jsonResponse) {
+                    alert(
+                    `Playlist was hopefully created on your account!\n${name}\n${playlistLink}`
+                    );
+                }
                 return fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`, {
                     headers: headers,
                     method: 'POST',
