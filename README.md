@@ -1,45 +1,36 @@
 # mySpotify.me
 
-In development React app, I am aiming to create a serverless React.Js application where people can create a profile of their own with their respective top tracks/artists information.
-This project is live on https://myspotify.me
+This is a React.JS project where people can see their top songs & artists by logging in with their respective Spotify accounts. The user can also create playlists with their top tracks, including in the last month, over the previous 6 months and account lifetime.
 
----
+It's a serverless app, meaning there is no backend, and it doesn't store any information, initiated with create-react-app by Facebook.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**To run:**
+```
+yarn install
+yarn start
+```
 
-## Available Scripts
+**Known Issues**
+- Logout is not properly working at this point, clicking the logout button deletes the access token cookie stored on the browser, however, the user needs to go to Spotify's website and logout from there as well. This is the only way to login with other Spotify accounts at the moment. Logout link https://www.spotify.com/logout/
 
-In the project directory, you can run:
+## Screenshots:
 
-### `yarn start`
+### Main page && the buttons are disabled until login
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+![Readme%20md/Untitled.png](https://i.imgur.com/fYpUQ6G.png)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Getting all time artist info
 
-### `yarn test`
+![Readme%20md/Untitled%201.png](https://i.imgur.com/l3vmyyw.png)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Mobile version of the app
 
-### `yarn build`
+![Readme%20md/Untitled%202.png](https://i.imgur.com/fvSa21E.png)
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Displaying track information && save as a playlist button
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+![Readme%20md/Untitled%203.png](https://i.imgur.com/AD5rEoH.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Created playlist on Spotify
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+![Readme%20md/Untitled%204.png](https://i.imgur.com/Y7oajtU.png)
