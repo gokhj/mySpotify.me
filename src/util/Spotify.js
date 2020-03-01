@@ -45,12 +45,12 @@ const Spotify = {
      * @param time_range, long_term = several years, medium_term = 6 months, short_term = 4 weeks 
     */
 
-    getArtists(time_range) {
+    getArtists(time_range, limit=50) {
         if(!time_range) {
             time_range = "long_term";
         }
         const accessToken = Spotify.getAccessToken();
-        return fetch(`https://api.spotify.com/v1/me/top/artists?limit=50&time_range=${time_range}`, { // will add limit and time_range later
+        return fetch(`https://api.spotify.com/v1/me/top/artists?limit=${limit}&time_range=${time_range}`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }
@@ -58,6 +58,7 @@ const Spotify = {
             return response.json();
         }).then(jsonResponse => {
                 return jsonResponse.items.map(artist => ({
+                    id: artist.id,
                     name: artist.name,
                     image: artist.images,
                     link: artist.external_urls.spotify,
@@ -67,12 +68,12 @@ const Spotify = {
 
     },
 
-    getTracks(time_range) {
+    getTracks(time_range, limit=50) {
         if (!time_range) {
             time_range = "long_term";
         }
         const accessToken = Spotify.getAccessToken();
-        return fetch(`https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=${time_range}`, { // will add limit and time_range later
+        return fetch(`https://api.spotify.com/v1/me/top/tracks?limit=${limit}&time_range=${time_range}`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }
@@ -80,6 +81,7 @@ const Spotify = {
             return response.json();
         }).then(jsonResponse => {
             return jsonResponse.items.map(track => ({
+                id: track.id,
                 name: track.name,
                 image: track.album.images,
                 link: track.external_urls.spotify,
@@ -140,23 +142,41 @@ const Spotify = {
     },
 
     // Create a playlist out of top Spotify songs
-    savePlaylist(trackUris, time_range) {
-        let name;
-        const date = new Date();
-        let arranged_date = "";
-        arranged_date += date.getDate() + "/";
-        arranged_date += (date.getMonth()+1) + "/";
-        arranged_date += date.getFullYear();
+    savePlaylist(trackUris, time_range, recommendation) {
 
-        // Assign name variable
-        if (time_range === "short_term") {
-            name = `My top songs in last month - ${arranged_date}`;
-        } else if (time_range === "medium_term") {
-            name = `My top songs in the last 6 months - ${arranged_date}`;
-        } else if (time_range === "long_term") {
-            name = `My all time top songs - ${arranged_date}`;
+        let name;
+
+        if(recommendation) {
+
+            // Assign name variable
+            if (time_range === "short_term") {
+                name = 'mySpotify.me recommendations for the last month';
+            } else if (time_range === "medium_term") {
+                name = 'mySpotify.me recommendations for the last 6 months';
+            } else if (time_range === "long_term") {
+                name = 'mySpotify.me recommendations for all time history';
+            } else {
+                return false;
+            }
+
         } else {
-            return false;
+
+            const date = new Date();
+            let arranged_date = "";
+            arranged_date += date.getDate() + "/";
+            arranged_date += (date.getMonth()+1) + "/";
+            arranged_date += date.getFullYear();
+
+            // Assign name variable
+            if (time_range === "short_term") {
+                name = `My top songs in last month - ${arranged_date}`;
+            } else if (time_range === "medium_term") {
+                name = `My top songs in the last 6 months - ${arranged_date}`;
+            } else if (time_range === "long_term") {
+                name = `My all time top songs - ${arranged_date}`;
+            } else {
+                return false;
+            }
         }
 
         const headers = { Authorization: `Bearer ${accessToken}` };
@@ -185,8 +205,67 @@ const Spotify = {
                 });
             });
         });
-    }
+    },
 
+    getRecommendations(artists, tracks) {
+
+        // final objects for POST request to spotify
+        let seedArtists = ""; // 1 seed artist
+        let seedTracks = ""; // 3 seed tracks
+        let seedGenre = ""; // 1 seed genre (the top one out of the top 5 artists)
+
+        // Getting the genre details from the artist object
+        let genreCollection = {}
+        let counter = 0
+        artists.forEach(artist => {
+            if(counter === 0) {
+                seedArtists = artist.id;
+            }
+            artist.genres.forEach(genre => {
+
+                if (genreCollection[genre]) {
+                    genreCollection[genre]++;
+                } else {
+                    genreCollection[genre] = 1
+                }
+
+            });
+        });
+
+        // sorting genre collection by its values
+        let sortedGenre = [], obj = genreCollection;
+        for(let key in obj) {
+            sortedGenre.push([key, obj[key]]);
+        }
+        sortedGenre.sort(function(a, b){
+            return a[1] - b[1]
+        });
+
+        // getting the top genre
+
+        seedGenre = sortedGenre[sortedGenre.length-1][0];
+
+        counter = 0;
+
+        tracks.forEach(track => {
+            if(counter < 3) {
+                seedTracks += track.id + "%2C";
+                counter++;
+            }
+        });
+
+
+        return fetch(`https://api.spotify.com/v1/recommendations?seed_artists=${seedArtists}&seed_genres=${seedGenre}&seed_tracks=${seedTracks}&limit=50`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }).then(response => {
+            return response.json();
+        }).then(jsonResponse => {
+            return jsonResponse;
+        })
+
+    },
 }
 
 const token = Spotify.checkCookies(); // initial variable to check cookie

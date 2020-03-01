@@ -12,9 +12,9 @@ class SavePlaylist extends React.Component {
     }
 
     savePlaylist() {
-        if(this.props.artistOrTrack) {
+        if(this.props.artistOrTrack || this.props.recommended) {
             const trackUris = this.createTrackUris();
-            Spotify.savePlaylist(trackUris, this.props.time);
+            Spotify.savePlaylist(trackUris, this.props.time, this.props.recommended);
         }
     }
 
@@ -30,6 +30,9 @@ class SavePlaylist extends React.Component {
         let hiddenButton = "btn"
         if(!this.props.artistOrTrack) {
             hiddenButton += " hidden"
+        }
+        if(this.props.recommended) {
+            hiddenButton = "btn";
         }
 
         return(

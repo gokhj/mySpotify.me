@@ -6,6 +6,7 @@ import Results from './Results/Results';
 import Toggle from 'react-toggle';
 import CornerButton from './CornerButton/CornerButton';
 import SavePlaylist from './SavePlaylist/SavePlaylist';
+import RecommendButton from './RecommendButton/RecommendButton';
 
 class App extends React.Component {
 
@@ -17,7 +18,8 @@ class App extends React.Component {
       results: [], // json result coming from Spotify API
       artistOrTrack: false, // toggle button
       loggedIn: false, // check if loggedIn
-      time_range: false // the time range for getTracks and getArtists functions
+      time_range: false, // the time range for getTracks and getArtists functions
+      recommended: false
     }
 
     // binding all the functions
@@ -28,6 +30,7 @@ class App extends React.Component {
     this.checkShortTerm = this.checkShortTerm.bind(this);
     this.checkMediumTerm = this.checkMediumTerm.bind(this);
     this.checkLongTerm = this.checkLongTerm.bind(this);
+    this.updateSongs = this.updateSongs.bind(this);
 
     const cookie = Spotify.checkExists();
     if(cookie) {
@@ -56,17 +59,25 @@ class App extends React.Component {
   getResults(time_range, artistOrTrack) {
     if(artistOrTrack){
       Spotify.getArtists(time_range).then(results => {
-        this.setState({results: results});
+        this.setState({results: results, recommended: false});
       })
     } else {
       Spotify.getTracks(time_range).then(results => {
-        this.setState({results: results});
+        this.setState({results: results, recommended: false});
       })
     }
   }
   // receiving informatin from CornerButton component
   updateloggedIn(val) {
     this.setState({loggedIn: val})
+  }
+  updateSongs(val) {
+    this.setState(
+      {
+        results: val,
+        recommended: true
+      }
+      );
   }
   // make separate API call to get time_range
   changeTimeline(time_range) {
@@ -126,7 +137,8 @@ class App extends React.Component {
               <button className={button2} onClick={this.checkMediumTerm} disabled={!this.state.loggedIn}>6 months</button>
               <button className={button3} onClick={this.checkLongTerm} disabled={!this.state.loggedIn}>All time</button>
               <br></br>
-                <SavePlaylist artistOrTrack={this.state.artistOrTrack} time={this.state.time_range} trackUris={this.state.results} />
+                <RecommendButton newSongs={this.updateSongs} artistOrTrack={this.state.artistOrTrack} time={this.state.time_range} recommended={this.state.recommended}></RecommendButton>
+                <SavePlaylist artistOrTrack={this.state.artistOrTrack} time={this.state.time_range} trackUris={this.state.results} recommended={this.state.recommended} />
             </div>
           </div>
           </div>
