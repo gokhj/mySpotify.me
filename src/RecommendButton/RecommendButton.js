@@ -12,8 +12,8 @@ class RecommendButton extends React.Component {
     }
 
     async recommend() {
-        const artists = await Spotify.getArtists(this.props.time, 5);
-        const tracks = await Spotify.getTracks(this.props.time, 5);
+        const artists = await Spotify.getArtists(this.props.time, 10);
+        const tracks = await Spotify.getTracks(this.props.time, 10);
         let newSongs = await Spotify.getRecommendations(artists, tracks);
         let arrangedValues = [];
         newSongs.tracks.forEach(track => {

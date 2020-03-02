@@ -246,15 +246,20 @@ const Spotify = {
         seedGenre = sortedGenre[sortedGenre.length-1][0];
 
         counter = 0;
-
+        let trackArtists = [];
         tracks.forEach(track => {
             if(counter < 3) {
-                seedTracks += track.id + "%2C";
-                counter++;
+                let trackArtist = track.artists[0].name;
+                // preventing duplicate artist information for the tracks
+                // for better recommendations
+                if (!(trackArtists.indexOf(trackArtist) > -1)) {
+                    trackArtists.push(trackArtist);
+                    seedTracks += track.id + "%2C";
+                    counter++;
+                }
             }
         });
-
-
+        
         return fetch(`https://api.spotify.com/v1/recommendations?seed_artists=${seedArtists}&seed_genres=${seedGenre}&seed_tracks=${seedTracks}&limit=50`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`
