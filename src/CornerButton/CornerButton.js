@@ -1,6 +1,7 @@
 import React from 'react'
 import Spotify from '../util/Spotify';
-import './CornerButton.css'
+import './CornerButton.css';
+import SpotityIcon from '../static/spotify_icon-white.png';
 
 class CornerButton extends React.Component {
 
@@ -56,7 +57,11 @@ class CornerButton extends React.Component {
         if (!this.state.loggedIn) {
             return (
                 <div>
-                    <button type="button" className="btn btn-success my-2 my-sm-0 login-spotify" onClick={this.loginSpotify}><span className="button-text">Login</span></button>
+                    <button type="button" className="btn btn-success my-2 my-sm-0 login-spotify" onClick={this.loginSpotify}>
+                        <span className="button-text">
+                            <img src={SpotityIcon} alt="Spotify" className="spotify-icon" />Login with Spotify
+                        </span>
+                    </button>
                 </div>
             )
         } else {
