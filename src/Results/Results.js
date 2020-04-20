@@ -44,7 +44,7 @@ class Results extends React.Component {
             } catch {
                 let obj = {
                     name: element.name,
-                    image: 'https://myspotify.fra1.digitaloceanspaces.com/no-image.jpg',
+                    image: 'https://pablik.s3.eu-west-3.amazonaws.com/no-image.jpg',
                     link: element.link,
                     number: number,
                     additional: additional
@@ -89,7 +89,7 @@ class Results extends React.Component {
             } catch {
                 let obj = {
                     name: element.name,
-                    image: 'https://myspotify.fra1.digitaloceanspaces.com/no-image.jpg',
+                    image: 'https://pablik.s3.eu-west-3.amazonaws.com/no-image.jpg',
                     link: element.link,
                     number: number,
                     additional: additional
